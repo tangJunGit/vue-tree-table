@@ -40,6 +40,10 @@ export default {
     children: {
       type: String,
       default: 'children'
+    },
+    noChild: {
+      type: String,
+      default: 'noChild'
     }
   },
   methods: {
@@ -110,7 +114,7 @@ export default {
     },
     // 没有儿子节点不显示icon
     iconStyles (row) {
-      return { 'visibility': (this.hasChild(row) || (this.asyn && !row.noChild) ? 'visible' : 'hidden') }
+      return { 'visibility': (this.hasChild(row) || (this.asyn && !row[this.noChild]) ? 'visible' : 'hidden') }
     },
     // 判断缓存中是否有儿子节点
     hasChild (row) {
