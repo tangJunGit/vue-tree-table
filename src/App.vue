@@ -1,16 +1,20 @@
 <template>
   <div id="app">
     <tree-table-basic></tree-table-basic>
+    <hr>
+    <tree-table-lazy></tree-table-lazy>
   </div>
 </template>
 
 <script>
 import TreeTableBasic from './components/tree-table-basic'
+import treeTableLazy from './components/tree-table-lazy'
 
 export default {
   name: 'app',
   components: {
-    TreeTableBasic
+    TreeTableBasic,
+    treeTableLazy
   }
 }
 </script>

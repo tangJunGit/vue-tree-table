@@ -1,10 +1,7 @@
 <template>
   <el-table-column :prop="prop" v-bind="$attrs">
     <template slot-scope="scope">
-      <span
-        @click.prevent="toggleHandle(scope.$index, scope.row)"
-        :style="paddingStyles(scope.row)"
-      >
+      <span @click.prevent="toggleHandle(scope.row,scope.$index)" :style="paddingStyles(scope.row)">
         <i :class="iconClasses(scope.row)" :style="iconStyles(scope.row)"></i>
         {{ scope.row[prop] }}
       </span>
@@ -15,6 +12,12 @@
 export default {
   name: 'TreeTableColumn',
   props: {
+    asyn: {
+      type: Boolean
+    },
+    data: {
+      type: Array
+    },
     prop: {
       type: String
     },
@@ -37,29 +40,30 @@ export default {
   },
   methods: {
     // 展开收缩操作
-    toggleHandle (index, row) {
+    toggleHandle (row, index) {
+      let data;
+      row._expanded = !row._expanded;
+
       if (this.hasChild(row)) {
-        let data = this.$parent.store.states.data.slice(0); /// 获取table数据
-        let d = data[index];
-        d._expanded = !d._expanded
-        if (d._expanded) {
-          data = this.addChildNode(data, row, index);  // 添加table子节点数据
+        if (row._expanded) {
+          data = this.addChildNode(this.data, row, index);  // 添加table子节点数据
+          this.$emit('onExpand', data, row, index);
         } else {
-          data = this.removeChildNode(data, row[this.id])    // 删除table子节点数据
+          data = this.removeChildNode(this.data, row[this.id])    // 删除table子节点数据
+          this.$emit('onShrink', data, row, index);
         }
-
-        // 更新
-        this.$parent.store.commit('setData', data)
-        this.$nextTick(() => {
-          this.$parent.doLayout()
-        })
-
+      } else {
+        if (this.asyn) {
+          this.$emit('onExpand', data, row, index);
+        }
       }
+
+      this.$emit('onClick', data, row, index);   // 点击节点事件
     },
     // 添加子节点
     addChildNode (data, row, index) {
       row = this.hiddenExpanded(row);   // 添加时隐藏展开状态
-      return data.splice(0, index + 1).concat(row[this.children]).concat(data)
+      return data.slice(0, index + 1).concat(row[this.children]).concat(data.slice(index + 1))
     },
     // 隐藏展开状态
     hiddenExpanded (node) {
@@ -102,7 +106,7 @@ export default {
     },
     // 没有儿子节点不显示icon
     iconStyles (row) {
-      return { 'visibility': (this.hasChild(row) ? 'visible' : 'hidden') }
+      return { 'visibility': (this.hasChild(row) || this.asyn ? 'visible' : 'hidden') }
     },
     // 判断是否有儿子节点
     hasChild (row) {

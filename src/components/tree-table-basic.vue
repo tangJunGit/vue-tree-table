@@ -2,7 +2,7 @@
   <div class="tree-table">
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="id" label="ID"></el-table-column>
-      <tree-table-column prop="area" label="Area"></tree-table-column>
+      <tree-table-column prop="area" label="Area" :data="tableData" @onClick="clickNode"></tree-table-column>
       <el-table-column prop="parentId" label="ParentId"></el-table-column>
       <el-table-column prop="level" label="Level"></el-table-column>
     </el-table>
@@ -13,9 +13,6 @@
 import TreeTableColumn from "./tree-table-column";
 export default {
   name: 'TreeTableBasic',
-  props: {
-    msg: String
-  },
   data () {
     return {
       tableData: [
@@ -43,7 +40,15 @@ export default {
     }
   },
   methods: {
+    // 点击节点
+    clickNode (data, row, index) {
+      console.log('表格数据：', data);
+      console.log('节点数据：', row);
+      console.log('节点索引', index);
 
+      // 更新表格数据
+      this.tableData = data;
+    }
   },
   components: {
     TreeTableColumn
