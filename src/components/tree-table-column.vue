@@ -1,8 +1,12 @@
 <template>
   <el-table-column :prop="prop" v-bind="$attrs">
     <template slot-scope="scope">
-      <span @click.prevent="toggleHandle(scope.row,scope.$index)" :style="paddingStyles(scope.row)">
-        <i :class="iconClasses(scope.row)" :style="iconStyles(scope.row)"></i>
+      <span :style="paddingStyles(scope.row)">
+        <i
+          @click.prevent="toggleHandle(scope.row,scope.$index)"
+          :class="iconClasses(scope.row)"
+          :style="iconStyles(scope.row)"
+        ></i>
         {{ scope.row[prop] }}
       </span>
     </template>
@@ -47,18 +51,18 @@ export default {
       if (this.hasChild(row)) {
         if (row._expanded) {
           data = this.addChildNode(this.data, row, index);  // 添加table子节点数据
-          this.$emit('onExpand', data, row, index);
+          this.$emit('onExpand', row, index, data);
         } else {
           data = this.removeChildNode(this.data, row[this.id])    // 删除table子节点数据
-          this.$emit('onShrink', data, row, index);
+          this.$emit('onShrink', row, index, data);
         }
       } else {
         if (this.asyn) {
-          this.$emit('onExpand', data, row, index);
+          this.$emit('onExpand', row, index);
         }
       }
 
-      this.$emit('onClick', data, row, index);   // 点击节点事件
+      this.$emit('onClick', row, index, data);   // 点击节点事件
     },
     // 添加子节点
     addChildNode (data, row, index) {
@@ -106,9 +110,9 @@ export default {
     },
     // 没有儿子节点不显示icon
     iconStyles (row) {
-      return { 'visibility': (this.hasChild(row) || this.asyn ? 'visible' : 'hidden') }
+      return { 'visibility': (this.hasChild(row) || (this.asyn && !row.noChild) ? 'visible' : 'hidden') }
     },
-    // 判断是否有儿子节点
+    // 判断缓存中是否有儿子节点
     hasChild (row) {
       return (Array.isArray(row[this.children]) && row[this.children].length) || false
     },
