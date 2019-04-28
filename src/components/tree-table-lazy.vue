@@ -41,9 +41,6 @@ export default {
   methods: {
     // 展开节点
     onExpandNode (row, index) {
-      console.log('节点数据：', row);
-      console.log('节点 index：', index);
-
       // 模拟的数据
       const mockData = [
         { id: row.id + '1', name: 'test-' + row.id + '1', level: row.level + 1, parentId: row.id },
@@ -57,10 +54,6 @@ export default {
     },
     // 收缩节点
     onShrinkNode (row, index, data) {
-      console.log('表格数据：', data);
-      console.log('节点数据：', row);
-      console.log('节点 index：', index);
-
       // 更新表格数据
       this.tableData = data;
     }

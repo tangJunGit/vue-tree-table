@@ -42,10 +42,6 @@ export default {
   methods: {
     // 点击节点
     clickNode (row, index, data) {
-      console.log('表格数据：', data);
-      console.log('节点数据：', row);
-      console.log('节点索引', index);
-
       // 更新表格数据
       this.tableData = data;
     }
