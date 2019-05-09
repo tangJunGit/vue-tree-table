@@ -23,9 +23,6 @@
 import TreeTableColumn from "./tree-table-column";
 export default {
   name: 'TreeTableBasic',
-  props: {
-    msg: String
-  },
   data () {
     return {
       tableData: [
