@@ -8,7 +8,7 @@
         :data="tableData"
         @onExpand="onExpandNode"
         @onShrink="onShrinkNode"
-        :asyn="true"
+        :asyn="asyn"
       ></tree-table-column>
       <el-table-column prop="parentId" label="ParentId"></el-table-column>
       <el-table-column prop="level" label="Level"></el-table-column>
@@ -25,6 +25,8 @@ export default {
   name: 'TreeTableBasic',
   data () {
     return {
+      // 配置参数  异步
+      asyn: true,
       tableData: [
         {
           id: 1, name: 'test-1', level: 1, parentId: 0

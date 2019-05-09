@@ -2,7 +2,7 @@
   <div class="tree-table">
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="id" label="ID"></el-table-column>
-      <tree-table-column prop="area" label="Area" :data="tableData" @onClick="clickNode"></tree-table-column>
+      <tree-table-column prop="area" label="Area" :props="props" :data="tableData" @onClick="clickNode"></tree-table-column>
       <el-table-column prop="parentId" label="ParentId"></el-table-column>
       <el-table-column prop="level" label="Level"></el-table-column>
     </el-table>
@@ -15,6 +15,14 @@ export default {
   name: 'TreeTableBasic',
   data () {
     return {
+      // 参数配置（以下是默认）
+      props: {
+        id: "id",
+        parentId: "parentId",
+        level: "level",
+        children: "children",
+        noChild: "noChild"
+      },
       tableData: [
         {
           id: 1, area: '重庆市', level: 1, parentId: 0, children: [
