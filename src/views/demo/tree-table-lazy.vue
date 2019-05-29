@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import TreeTableColumn from "./tree-table-column";
+import TreeTableColumn from "@/components/tree-table/tree-table-column";
 export default {
   name: 'TreeTableBasic',
   data () {

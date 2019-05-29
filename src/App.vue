@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import TreeTableBasic from './components/tree-table-basic'
-import treeTableLazy from './components/tree-table-lazy'
+import TreeTableBasic from './views/demo/tree-table-basic'
+import treeTableLazy from './views/demo/tree-table-lazy'
 
 export default {
   name: 'app',
